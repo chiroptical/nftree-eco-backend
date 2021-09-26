@@ -1,0 +1,29 @@
+name: nftree-eco-backend
+version: 0.0.1-alpha
+synopsis: A servant backend for nftree.eco
+description: See README at <https://github.com/chiroptical/nftree-eco-backend>
+maintainer: Barry
+github: chiroptical/nftree-eco-backend
+
+ghc-options: -Wall
+
+dependencies:
+  - base >=4.11 && < 5
+
+library:
+  source-dirs: src
+
+executable:
+  main: Main.hs
+  source-dirs: app
+  dependencies:
+    - nftree-eco-backend
+
+tests:
+  spec:
+    main: Main.hs
+    source-dirs:
+      - test
+    dependencies:
+      - nftree-eco-backend
+      - hedgehog

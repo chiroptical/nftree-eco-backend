@@ -1,0 +1,56 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+
+name:           nftree-eco-backend
+version:        0.0.1-alpha
+synopsis:       A servant backend for nftree.eco
+description:    See README at <https://github.com/chiroptical/nftree-eco-backend>
+homepage:       https://github.com/chiroptical/nftree-eco-backend#readme
+bug-reports:    https://github.com/chiroptical/nftree-eco-backend/issues
+maintainer:     Barry
+build-type:     Simple
+
+source-repository head
+  type: git
+  location: https://github.com/chiroptical/nftree-eco-backend
+
+library
+  exposed-modules:
+      NftreeEcoBackend
+  other-modules:
+      Paths_nftree_eco_backend
+  hs-source-dirs:
+      src
+  ghc-options: -Wall
+  build-depends:
+      base >=4.11 && <5
+  default-language: Haskell2010
+
+executable nftree-eco-backend
+  main-is: Main.hs
+  other-modules:
+      Paths_nftree_eco_backend
+  hs-source-dirs:
+      app
+  ghc-options: -Wall
+  build-depends:
+      base >=4.11 && <5
+    , nftree-eco-backend
+  default-language: Haskell2010
+
+test-suite spec
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  other-modules:
+      Paths_nftree_eco_backend
+  hs-source-dirs:
+      test
+  ghc-options: -Wall
+  build-depends:
+      base >=4.11 && <5
+    , hedgehog
+    , nftree-eco-backend
+  default-language: Haskell2010
