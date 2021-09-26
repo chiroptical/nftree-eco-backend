@@ -10,6 +10,6 @@ The backend for nftree.eco
 "{packageName}" =
   hself.callCabal2nix
     "{packageName}"
-    sources.{packageName}.outPath
+    (sources.{packageName})
     {};
 ```
