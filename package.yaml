@@ -9,9 +9,17 @@ ghc-options: -Wall
 
 dependencies:
   - base >=4.11 && < 5
+  - text
+  - aeson
 
 library:
   source-dirs: src
+  dependencies:
+    - servant
+    - sqlite-simple
+    - servant
+    - servant-server
+    - aeson
 
 executable:
   main: Main.hs
