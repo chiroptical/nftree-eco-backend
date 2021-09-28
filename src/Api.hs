@@ -7,4 +7,4 @@ import qualified Api.Auth as Auth
 import Servant ((:>))
 import Servant.API.Generic (ToServantApi)
 
-type Api = "auth" :> ToServantApi Auth.Auth
+type Api = "auth" :> ToServantApi Auth.AuthRoutes

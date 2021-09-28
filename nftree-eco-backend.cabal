@@ -31,8 +31,8 @@ library
       aeson
     , base >=4.11 && <5
     , servant
+    , servant-auth-server
     , servant-server
-    , sqlite-simple
     , text
   default-language: Haskell2010
 
@@ -44,8 +44,7 @@ executable nftree-eco-backend
       app
   ghc-options: -Wall
   build-depends:
-      aeson
-    , base >=4.11 && <5
+      base >=4.11 && <5
     , nftree-eco-backend
     , text
   default-language: Haskell2010
@@ -59,8 +58,7 @@ test-suite spec
       test
   ghc-options: -Wall
   build-depends:
-      aeson
-    , base >=4.11 && <5
+      base >=4.11 && <5
     , hedgehog
     , nftree-eco-backend
     , text
