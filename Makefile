@@ -22,4 +22,10 @@ format-nix:
 format: format-nix
 	find src/ app/ test/ -name "*.hs" -exec fourmolu -i {} +
 
-.PHONY: build build-lib build-test run test hpack format-nix format
+ghcid:
+	ghcid -c "cabal repl lib:nftree-eco-backend"
+
+ghcid-exe:
+	ghcid -c "cabal repl exe:nftree-eco-backend"
+
+.PHONY: build build-lib build-test run test hpack format-nix format ghcid ghcid-exe

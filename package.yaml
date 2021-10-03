@@ -8,15 +8,16 @@ github: chiroptical/nftree-eco-backend
 ghc-options: -Wall
 
 dependencies:
-  - base >=4.11 && < 5
-  - text
+- base >=4.11 && < 5
+- text
+- servant
+- servant-server
+- servant-auth-server
+- warp
 
 library:
   source-dirs: src
   dependencies:
-    - servant
-    - servant-server
-    - servant-auth-server
     - aeson
 
 executable:

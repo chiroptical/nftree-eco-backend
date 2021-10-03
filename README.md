@@ -13,3 +13,7 @@ The backend for nftree.eco
     (sources.{packageName})
     {};
 ```
+## Useful links
+
+- [The Good Api](https://docs.thegoodapi.com/)
+- [The Eden Project](https://www.edenproject.com/)

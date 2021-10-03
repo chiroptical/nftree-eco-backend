@@ -1,6 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE TypeOperators #-}
 
 -- These routes are mounted under /auth
@@ -33,13 +34,19 @@ data AuthRequestBody = AuthRequestBody
     { username :: Text
     , password :: Text
     }
+    deriving (Generic)
+
+instance ToJSON AuthRequestBody
+instance ToJWT AuthRequestBody
+instance FromJSON AuthRequestBody
+instance FromJWT AuthRequestBody
 
 type HeadersNoContent = Headers '[Header "Set-Cookie" SetCookie, Header "Set-Cookie" SetCookie] NoContent
 type PostNoContent = Verb 'POST 204 '[JSON] HeadersNoContent
 
 newtype AuthRoutes route = AuthRoutes
     { -- _register :: route :- ReqBody '[JSON] AuthRequestBody :> PostNoContent,
-      _login :: route :- ReqBody '[JSON] AuthRequestBody :> PostNoContent
+      _login :: route :- "login" :> ReqBody '[JSON] AuthRequestBody :> PostNoContent
     }
     deriving (Generic)
 
@@ -67,10 +74,8 @@ checkCreds ::
     JWTSettings ->
     AuthRequestBody ->
     Handler HeadersNoContent
-checkCreds cookieSettings jwtSettings (AuthRequestBody "chiroptical" "chiroptical") = do
-    -- TODO: Need to hash with 'password' and check against database
-    mApplyCookies <- liftIO $ acceptLogin cookieSettings jwtSettings (AuthenticatedUser "chiroptical")
+checkCreds cookieSettings jwtSettings AuthRequestBody{..} = do
+    mApplyCookies <- liftIO $ acceptLogin cookieSettings jwtSettings (AuthenticatedUser username)
     case mApplyCookies of
         Nothing -> throwError err401
-        Just applyCookies -> return $ applyCookies NoContent
-checkCreds _ _ _ = throwError err401
+        Just applyCookies -> pure $ applyCookies NoContent
