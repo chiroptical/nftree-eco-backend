@@ -9,10 +9,19 @@ ghc-options: -Wall
 
 dependencies:
 - base >=4.11 && < 5
-- text
+- esqueleto
+- monad-logger
+- password
+- persistent
+- persistent-sqlite
+- resource-pool
+- resourcet
 - servant
-- servant-server
 - servant-auth-server
+- servant-server
+- text
+- transformers
+- unliftio
 - warp
 
 library:
@@ -32,5 +41,5 @@ tests:
     source-dirs:
       - test
     dependencies:
-      - nftree-eco-backend
       - hedgehog
+      - nftree-eco-backend

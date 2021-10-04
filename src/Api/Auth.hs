@@ -7,7 +7,7 @@
 -- These routes are mounted under /auth
 module Api.Auth where
 
-import Control.Monad.IO.Class (liftIO)
+import AppM
 import Data.Aeson (FromJSON, ToJSON)
 import Data.Data (Proxy (..))
 import Data.Text (Text)
@@ -27,8 +27,8 @@ import Servant.Auth.Server (
     ToJWT,
     acceptLogin,
  )
-import Servant.Server (Handler)
-import Servant.Server.Generic (AsServer)
+import Servant.Server.Generic (AsServerT)
+import UnliftIO (liftIO)
 
 data AuthRequestBody = AuthRequestBody
     { username :: Text
@@ -53,7 +53,7 @@ newtype AuthRoutes route = AuthRoutes
 api :: Proxy (ToServantApi AuthRoutes)
 api = genericApi (Proxy :: Proxy AuthRoutes)
 
-server :: CookieSettings -> JWTSettings -> AuthRoutes AsServer
+server :: CookieSettings -> JWTSettings -> AuthRoutes (AsServerT AppM)
 server cs js =
     AuthRoutes
         { _login = checkCreds cs js
@@ -73,7 +73,7 @@ checkCreds ::
     CookieSettings ->
     JWTSettings ->
     AuthRequestBody ->
-    Handler HeadersNoContent
+    AppM HeadersNoContent
 checkCreds cookieSettings jwtSettings AuthRequestBody{..} = do
     mApplyCookies <- liftIO $ acceptLogin cookieSettings jwtSettings (AuthenticatedUser username)
     case mApplyCookies of
