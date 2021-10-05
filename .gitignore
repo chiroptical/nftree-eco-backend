@@ -29,3 +29,8 @@ cabal.project.local
 
 # direnv
 .envrc
+
+# database
+nftree.prod.db
+nftree.prod.db-shm
+nftree.prod.db-wal

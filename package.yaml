@@ -7,11 +7,35 @@ github: chiroptical/nftree-eco-backend
 
 ghc-options: -Wall
 
+default-extensions:
+- DataKinds
+- LambdaCase
+- OverloadedStrings
+- RecordWildCards
+- TypeApplications
+- TypeOperators
+
 dependencies:
-  - base >=4.11 && < 5
+- base >=4.11 && < 5
+- esqueleto
+- monad-logger
+- mtl
+- password
+- persistent
+- persistent-sqlite
+- resourcet
+- servant
+- servant-auth-server
+- servant-server
+- text
+- transformers
+- unliftio
+- warp
 
 library:
   source-dirs: src
+  dependencies:
+    - aeson
 
 executable:
   main: Main.hs
@@ -25,5 +49,5 @@ tests:
     source-dirs:
       - test
     dependencies:
-      - nftree-eco-backend
       - hedgehog
+      - nftree-eco-backend
