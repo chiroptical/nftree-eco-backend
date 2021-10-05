@@ -21,6 +21,7 @@ format-nix:
 
 format: format-nix
 	find src/ app/ test/ -name "*.hs" -exec fourmolu -i {} +
+	find src/ app/ test/ -name "*.hs" -exec brittany --indent=4 --write-mode=inplace {} +
 
 ghcid:
 	ghcid -c "cabal repl lib:nftree-eco-backend"
@@ -28,4 +29,7 @@ ghcid:
 ghcid-exe:
 	ghcid -c "cabal repl exe:nftree-eco-backend"
 
-.PHONY: build build-lib build-test run test hpack format-nix format ghcid ghcid-exe
+clean:
+	cabal clean
+
+.PHONY: build build-lib build-test run test hpack format-nix format ghcid ghcid-exe clean

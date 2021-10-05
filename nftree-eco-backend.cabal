@@ -28,16 +28,20 @@ library
       Paths_nftree_eco_backend
   hs-source-dirs:
       src
+  default-extensions:
+      LambdaCase
+      RecordWildCards
+      TypeOperators
   ghc-options: -Wall
   build-depends:
       aeson
     , base >=4.11 && <5
     , esqueleto
     , monad-logger
+    , mtl
     , password
     , persistent
     , persistent-sqlite
-    , resource-pool
     , resourcet
     , servant
     , servant-auth-server
@@ -54,16 +58,20 @@ executable nftree-eco-backend
       Paths_nftree_eco_backend
   hs-source-dirs:
       app
+  default-extensions:
+      LambdaCase
+      RecordWildCards
+      TypeOperators
   ghc-options: -Wall
   build-depends:
       base >=4.11 && <5
     , esqueleto
     , monad-logger
+    , mtl
     , nftree-eco-backend
     , password
     , persistent
     , persistent-sqlite
-    , resource-pool
     , resourcet
     , servant
     , servant-auth-server
@@ -81,17 +89,21 @@ test-suite spec
       Paths_nftree_eco_backend
   hs-source-dirs:
       test
+  default-extensions:
+      LambdaCase
+      RecordWildCards
+      TypeOperators
   ghc-options: -Wall
   build-depends:
       base >=4.11 && <5
     , esqueleto
     , hedgehog
     , monad-logger
+    , mtl
     , nftree-eco-backend
     , password
     , persistent
     , persistent-sqlite
-    , resource-pool
     , resourcet
     , servant
     , servant-auth-server

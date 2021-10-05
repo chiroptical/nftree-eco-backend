@@ -7,14 +7,19 @@ github: chiroptical/nftree-eco-backend
 
 ghc-options: -Wall
 
+default-extensions:
+- LambdaCase
+- RecordWildCards
+- TypeOperators
+
 dependencies:
 - base >=4.11 && < 5
 - esqueleto
 - monad-logger
+- mtl
 - password
 - persistent
 - persistent-sqlite
-- resource-pool
 - resourcet
 - servant
 - servant-auth-server

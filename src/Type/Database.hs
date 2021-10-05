@@ -12,18 +12,16 @@
 
 module Type.Database where
 
-import Data.Text (Text)
-import Database.Persist.Sqlite
-import Database.Persist.TH
-
--- TODO:
--- - Add hashed password to RegisteredUser
+import           Data.Text                      ( Text )
+import           Database.Persist.Sqlite
+import           Database.Persist.TH
 
 share
     [mkPersist sqlSettings, mkMigrate "migrateAll"]
     [persistLowerCase|
 RegisteredUser
     username Text
+    hashedPassword Text
     UniqueUsername username
     deriving Show
 |]

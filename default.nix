@@ -25,6 +25,7 @@ let
       myHaskellPackages.haskell-language-server
       pkgs.haskellPackages.cabal-install
       pkgs.haskellPackages.fourmolu
+      pkgs.haskellPackages.brittany
       pkgs.haskellPackages.ghcid
       pkgs.haskellPackages.hlint
       pkgs.haskellPackages.hpack
