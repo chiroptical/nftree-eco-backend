@@ -16,7 +16,7 @@ import Data.Aeson (
     ToJSON,
  )
 import Data.Data (Proxy (..))
-import Data.Password.Bcrypt
+import Data.Password.Bcrypt (PasswordCheck (..), PasswordHash (..), checkPassword, hashPassword, mkPassword)
 import Data.Text (Text)
 import Database.Esqueleto.Experimental
 import Database.Sqlite (SqliteException (..))
@@ -133,7 +133,6 @@ loginUser AuthRequestBody{..} = do
         Right Nothing ->
             throwError $ err403{errBody = "loginUser: this username doesn't exist"}
         Right (Just (Entity _ RegisteredUser{..})) -> do
-            PasswordHash passwordHash <- hashPassword $ mkPassword password
-            if passwordHash == registeredUserHashedPassword
-                then applyCookies (AuthenticatedUser registeredUserUsername)
-                else throwError err401{errBody = "loginUser: unable to log you in"}
+            case checkPassword (mkPassword password) (PasswordHash registeredUserHashedPassword) of
+                PasswordCheckSuccess -> applyCookies (AuthenticatedUser registeredUserUsername)
+                PasswordCheckFail -> throwError err401{errBody = "loginUser: unable to log you in"}
