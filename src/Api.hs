@@ -1,6 +1,3 @@
-{-# LANGUAGE DataKinds #-}
-{-# LANGUAGE TypeOperators #-}
-
 module Api where
 
 import Api.Auth (AuthenticatedUser (..))

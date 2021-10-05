@@ -15,8 +15,9 @@ import UnliftIO (
     try,
  )
 
--- TODO: It would be a ton better if we could convert this exception into a
--- custom exception tailored to our needs
+-- TODO: In 'Api.Auth.loginUser' we use 'runDb @SqliteException' however I
+-- don't know if this actually works... Figure out how to test that we catch
+-- the exception
 runDb :: Exception e => SqlPersistT IO a -> AppM (Either e a)
 runDb query = do
     connFromPool <- asks configPool

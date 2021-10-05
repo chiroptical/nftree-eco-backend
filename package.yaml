@@ -8,8 +8,11 @@ github: chiroptical/nftree-eco-backend
 ghc-options: -Wall
 
 default-extensions:
+- DataKinds
 - LambdaCase
+- OverloadedStrings
 - RecordWildCards
+- TypeApplications
 - TypeOperators
 
 dependencies:
