@@ -1,17 +1,19 @@
 module AppM where
 
-import           Control.Monad.Trans.Reader     ( ReaderT )
-import           Database.Esqueleto.Experimental
-                                                ( ConnectionPool )
-import           Servant                        ( Handler )
-import           Servant.Auth.Server            ( CookieSettings
-                                                , JWTSettings
-                                                )
+import Control.Monad.Trans.Reader (ReaderT)
+import Database.Esqueleto.Experimental (
+    ConnectionPool,
+ )
+import Servant (Handler)
+import Servant.Auth.Server (
+    CookieSettings,
+    JWTSettings,
+ )
 
 data Config = Config
-    { configPool           :: ConnectionPool
+    { configPool :: ConnectionPool
     , configCookieSettings :: CookieSettings
-    , configJwtSettings    :: JWTSettings
+    , configJwtSettings :: JWTSettings
     }
 
 type AppM = ReaderT Config Handler

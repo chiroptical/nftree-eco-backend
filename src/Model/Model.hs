@@ -10,11 +10,16 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}
 
-module Type.Database where
+module Model.Model where
 
-import           Data.Text                      ( Text )
-import           Database.Persist.Sqlite
-import           Database.Persist.TH
+import Data.Text (Text)
+import Database.Persist.TH (
+    mkMigrate,
+    mkPersist,
+    persistLowerCase,
+    share,
+    sqlSettings,
+ )
 
 share
     [mkPersist sqlSettings, mkMigrate "migrateAll"]

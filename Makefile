@@ -20,8 +20,7 @@ format-nix:
 	nixpkgs-fmt .
 
 format: format-nix
-	find src/ app/ test/ -name "*.hs" -exec fourmolu -i {} +
-	find src/ app/ test/ -name "*.hs" -exec brittany --indent=4 --write-mode=inplace {} +
+	find src/ app/ test/ -name "*.hs" -exec fourmolu -i -o '-XRecordWildCards' {} +
 
 ghcid:
 	ghcid -c "cabal repl lib:nftree-eco-backend"

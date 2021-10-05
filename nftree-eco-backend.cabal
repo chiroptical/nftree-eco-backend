@@ -22,8 +22,9 @@ library
       Api
       Api.Auth
       AppM
+      Model.Model
+      Model.RunDb
       NftreeEcoBackend
-      Type.Database
   other-modules:
       Paths_nftree_eco_backend
   hs-source-dirs:
