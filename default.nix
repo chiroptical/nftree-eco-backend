@@ -28,7 +28,6 @@ let
       pkgs.haskellPackages.ghcid
       pkgs.haskellPackages.hlint
       pkgs.haskellPackages.hpack
-      pkgs.haskellPackages.ghcid
 
       # Utilities
       pkgs.niv

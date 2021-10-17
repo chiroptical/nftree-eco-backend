@@ -52,6 +52,7 @@ main = do
   -- TODO: We may want a better error message on failures here
   liftIO . flip runSqlPool configPool $ runMigration migrateAll
 
+  -- TODO: We need to include a library for configuring the application
   withStdoutLogger $ \aplogger -> do
     let settings = setPort 8081 $ setLogger aplogger defaultSettings
     runSettings settings
