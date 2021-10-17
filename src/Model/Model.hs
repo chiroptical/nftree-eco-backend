@@ -13,16 +13,16 @@ module Model.Model where
 
 import Data.Text (Text)
 import Database.Persist.TH (
-    mkMigrate,
-    mkPersist,
-    persistLowerCase,
-    share,
-    sqlSettings,
+  mkMigrate,
+  mkPersist,
+  persistLowerCase,
+  share,
+  sqlSettings,
  )
 
 share
-    [mkPersist sqlSettings, mkMigrate "migrateAll"]
-    [persistLowerCase|
+  [mkPersist sqlSettings, mkMigrate "migrateAll"]
+  [persistLowerCase|
 RegisteredUser
     username Text
     hashedPassword Text

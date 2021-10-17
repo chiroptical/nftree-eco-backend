@@ -1,18 +1,18 @@
 module Model.RunDb where
 
 import AppM (
-    AppM,
-    Config (..),
+  AppM,
+  Config (..),
  )
 import Control.Monad.Reader (asks)
 import Database.Esqueleto.Experimental (
-    SqlPersistT,
+  SqlPersistT,
  )
 import Database.Persist.Sql (runSqlPool)
 import UnliftIO (
-    Exception,
-    MonadIO (liftIO),
-    try,
+  Exception,
+  MonadIO (liftIO),
+  try,
  )
 
 -- TODO: In 'Api.Auth.loginUser' we use 'runDb @SqliteException' however I
@@ -20,5 +20,5 @@ import UnliftIO (
 -- the exception
 runDb :: Exception e => SqlPersistT IO a -> AppM (Either e a)
 runDb query = do
-    connFromPool <- asks configPool
-    liftIO . try $ runSqlPool query connFromPool
+  connFromPool <- asks configPool
+  liftIO . try $ runSqlPool query connFromPool

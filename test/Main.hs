@@ -8,7 +8,7 @@ import NftreeEcoBackend
 
 prop_test :: Property
 prop_test = property $ do
-    doNftreeEcoBackend === "NftreeEcoBackend"
+  doNftreeEcoBackend === "NftreeEcoBackend"
 
 main :: IO ()
 main = defaultMain [checkParallel $$(discover)]
