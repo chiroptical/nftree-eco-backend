@@ -9,7 +9,7 @@ work with cities who have documented planted trees in their neighborhoods and
 turn them into non-fungible tokens for users to purchase. After you purchase a
 token you can choose to trade or make friends with other trees. To trade your
 trees you will need its' unique address and optionally you can plant more
-trees via [The Good Api](good-api).
+trees via [The Good Api][good-api].
 
 Ultimately, nftree.eco will be run as a non-profit with the goal of increasing
 tree equity in city landscapes.
@@ -37,7 +37,8 @@ This is **not** a blockchain project and never will be.
 ```
 ## Useful links
 
-- [The Good Api](good-api)
+- [The Good Api][good-api]
 - [The Eden Project](https://www.edenproject.com/)
+- [Jake Archibald's CORS Resource](https://jakearchibald.com/2021/cors)
 
 [good-api]: https://docs.thegoodapi.com

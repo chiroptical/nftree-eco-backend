@@ -16,7 +16,6 @@ import Data.Data (Proxy (..))
 import Data.Password.Bcrypt (PasswordCheck (..), PasswordHash (..), checkPassword, hashPassword, mkPassword)
 import Data.Text (Text)
 import Database.Esqueleto.Experimental
-import Database.Sqlite (SqliteException (..))
 import Model.Model (
   RegisteredUser (..),
   Unique (UniqueUsername),
@@ -120,7 +119,7 @@ registerUser :: AuthRequestBody -> AppM HeadersNoContent
 registerUser AuthRequestBody {..} = do
   PasswordHash hashedPassword <- hashPassword $ mkPassword password
   eRegisteredUser <-
-    runDb @SqliteException $
+    runDb $
       insertUnique (RegisteredUser username hashedPassword)
   case eRegisteredUser of
     Left _ ->
@@ -133,7 +132,7 @@ registerUser AuthRequestBody {..} = do
 -- TODO: Consider locking usernames which make repeated login requests
 loginUser :: AuthRequestBody -> AppM HeadersNoContent
 loginUser AuthRequestBody {..} = do
-  eRegisteredUser <- runDb @SqliteException $ getBy (UniqueUsername username)
+  eRegisteredUser <- runDb $ getBy (UniqueUsername username)
   case eRegisteredUser of
     Left _ ->
       throwError $
