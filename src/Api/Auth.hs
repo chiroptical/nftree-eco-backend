@@ -53,6 +53,7 @@ import UnliftIO (liftIO)
 
 data AuthRequestBody = AuthRequestBody
   { username :: Text
+  , email :: Text
   , password :: Text
   }
   deriving (Generic)
@@ -120,7 +121,13 @@ registerUser AuthRequestBody {..} = do
   PasswordHash hashedPassword <- hashPassword $ mkPassword password
   eRegisteredUser <-
     runDb $
-      insertUnique (RegisteredUser username hashedPassword)
+      insertUnique
+        ( RegisteredUser
+            { registeredUserUsername = username
+            , registeredUserEmail = email
+            , registeredUserHashedPassword = hashedPassword
+            }
+        )
   case eRegisteredUser of
     Left _ ->
       throwError $

@@ -25,6 +25,7 @@ share
   [persistLowerCase|
 RegisteredUser
     username Text
+    email Text
     hashedPassword Text
     UniqueUsername username
     deriving Show
