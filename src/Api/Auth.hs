@@ -72,12 +72,25 @@ type HeadersNoContent =
 
 type PostNoContent = Verb 'POST 204 '[JSON] HeadersNoContent
 
+type Origin = Header "Origin" Text
+
+-- This is purposely spelled incorrectly
+type Referer = Header "Referer" Text
+
 data AuthRoutes route = AuthRoutes
   { _register ::
-      route :- "register" :> ReqBody '[JSON] AuthRequestBody
+      route
+        :- Origin
+        :> Referer
+        :> "register"
+        :> ReqBody '[JSON] AuthRequestBody
         :> PostNoContent
   , _login ::
-      route :- "login" :> ReqBody '[JSON] AuthRequestBody
+      route
+        :- Origin
+        :> Referer
+        :> "login"
+        :> ReqBody '[JSON] AuthRequestBody
         :> PostNoContent
   }
   deriving (Generic)
@@ -115,8 +128,21 @@ applyCookies authenticatedUsername = do
     Nothing -> throwError err401
     Just cookies -> pure $ cookies NoContent
 
-registerUser :: AuthRequestBody -> AppM HeadersNoContent
-registerUser AuthRequestBody {..} = do
+allowedCorsOrigins :: [Text]
+allowedCorsOrigins = ["http://localhost:8080"]
+
+registerUser ::
+  Maybe Text ->
+  Maybe Text ->
+  AuthRequestBody ->
+  AppM HeadersNoContent
+registerUser mOrigin mReferer AuthRequestBody {..} = do
+  let isValidOrigin = (`elem` allowedCorsOrigins)
+  case (isValidOrigin <$> mOrigin, isValidOrigin <$> mReferer) of
+    (Just True, _) -> pure ()
+    -- Fall through to Referer, if Origin is NOT set
+    (Nothing, Just True) -> pure ()
+    _ -> throwError $ err500 {errBody = "registerUser: unable to handle your request"}
   PasswordHash hashedPassword <- hashPassword $ mkPassword password
   eRegisteredUser <-
     runDb $
@@ -130,8 +156,8 @@ registerUser AuthRequestBody {..} = do
     Right (Just _) -> applyCookies $ AuthenticatedUser username
 
 -- TODO: Consider locking usernames which make repeated login requests
-loginUser :: AuthRequestBody -> AppM HeadersNoContent
-loginUser AuthRequestBody {..} = do
+loginUser :: Maybe Text -> Maybe Text -> AuthRequestBody -> AppM HeadersNoContent
+loginUser _ _ AuthRequestBody {..} = do
   eRegisteredUser <- runDb $ getBy (UniqueUsername username)
   case eRegisteredUser of
     Left _ ->
