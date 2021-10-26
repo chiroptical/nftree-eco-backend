@@ -23,7 +23,7 @@ import Database.Persist.TH (
 share
   [mkPersist sqlSettings, mkMigrate "migrateAll"]
   [persistLowerCase|
-RegisteredUser
+RegisteredUser sql=registered_users
     username Text
     email Text
     hashedPassword Text
