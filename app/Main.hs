@@ -54,7 +54,8 @@ main = do
 
   -- TODO: We need to include a library for configuring the application
   withStdoutLogger $ \aplogger -> do
-    let settings = setPort 8081 $ setLogger aplogger defaultSettings
+    -- TODO: port should go into Environment
+    let settings = setPort 3001 $ setLogger aplogger defaultSettings
     runSettings settings
       . cors
         ( const $

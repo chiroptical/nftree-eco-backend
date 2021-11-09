@@ -15,8 +15,7 @@ seedDatabase = do
   void $
     insertUnique
       ( RegisteredUser
-          { registeredUserUsername = "chiroptical"
-          , registeredUserEmail = "chiroptical@email.com"
+          { registeredUserEmail = "chiroptical@email.com"
           , registeredUserHashedPassword = hashedPassword
           }
       )

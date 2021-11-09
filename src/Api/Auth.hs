@@ -18,7 +18,7 @@ import Data.Text (Text)
 import Database.Esqueleto.Experimental
 import Model.Model (
   RegisteredUser (..),
-  Unique (UniqueUsername),
+  Unique (UniqueEmail),
  )
 import Model.RunDb (runDb)
 import Servant (
@@ -52,8 +52,7 @@ import Servant.Server.Generic (AsServerT)
 import UnliftIO (liftIO)
 
 data AuthRequestBody = AuthRequestBody
-  { username :: Text
-  , email :: Text
+  { email :: Text
   , password :: Text
   }
   deriving (Generic)
@@ -94,7 +93,7 @@ server =
     }
 
 newtype AuthenticatedUser = AuthenticatedUser
-  { authenticatedUsername :: Text
+  { authenticatedEmail :: Text
   }
   deriving (Generic)
 
@@ -123,8 +122,7 @@ registerUser AuthRequestBody {..} = do
     runDb $
       insertUnique
         ( RegisteredUser
-            { registeredUserUsername = username
-            , registeredUserEmail = email
+            { registeredUserEmail = email
             , registeredUserHashedPassword = hashedPassword
             }
         )
@@ -134,12 +132,12 @@ registerUser AuthRequestBody {..} = do
         err500 {errBody = "registerUser: unable to handle your request"}
     Right Nothing ->
       throwError $ err403 {errBody = "registerUser: this username is taken"}
-    Right (Just _) -> applyCookies $ AuthenticatedUser username
+    Right (Just _) -> applyCookies $ AuthenticatedUser email
 
 -- TODO: Consider locking usernames which make repeated login requests
 loginUser :: AuthRequestBody -> AppM HeadersNoContent
 loginUser AuthRequestBody {..} = do
-  eRegisteredUser <- runDb $ getBy (UniqueUsername username)
+  eRegisteredUser <- runDb $ getBy (UniqueEmail email)
   case eRegisteredUser of
     Left _ ->
       throwError $
@@ -148,5 +146,5 @@ loginUser AuthRequestBody {..} = do
       throwError $ err403 {errBody = "loginUser: this username doesn't exist"}
     Right (Just (Entity _ RegisteredUser {..})) -> do
       case checkPassword (mkPassword password) (PasswordHash registeredUserHashedPassword) of
-        PasswordCheckSuccess -> applyCookies (AuthenticatedUser registeredUserUsername)
+        PasswordCheckSuccess -> applyCookies (AuthenticatedUser registeredUserEmail)
         PasswordCheckFail -> throwError err401 {errBody = "loginUser: unable to log you in"}

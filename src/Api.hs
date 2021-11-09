@@ -19,7 +19,7 @@ type Protected = "protected" :> Get '[JSON] Text
 protected ::
   Servant.Auth.Server.AuthResult AuthenticatedUser -> ServerT Protected AppM
 protected (Servant.Auth.Server.Authenticated AuthenticatedUser {..}) =
-  return authenticatedUsername
+  return authenticatedEmail
 protected _ = throwAll err401
 
 type Api auths =
