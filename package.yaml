@@ -14,15 +14,18 @@ default-extensions:
 - RecordWildCards
 - TypeApplications
 - TypeOperators
+- ImportQualifiedPost
 
 dependencies:
 - base >=4.11 && < 5
+- cryptonite
 - esqueleto
 - monad-logger
 - mtl
 - password
 - persistent
 - persistent-sqlite
+- random
 - resourcet
 - servant
 - servant-auth-server

@@ -24,8 +24,15 @@ share
   [mkPersist sqlSettings, mkMigrate "migrateAll"]
   [persistLowerCase|
 RegisteredUser sql=registered_users
-    email Text
-    hashedPassword Text
-    UniqueEmail email
-    deriving Show
+  email Text
+  hashedPassword Text
+  UniqueEmail email
+  deriving Show
+
+NFTree sql=nftrees
+  commonName Text
+  latinName Text
+  secret Text
+  UniqueSecret secret
+  deriving Show
 |]

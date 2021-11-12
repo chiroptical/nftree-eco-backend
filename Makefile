@@ -26,7 +26,7 @@ format-nix:
 	nixpkgs-fmt .
 
 format: format-nix
-	find src/ app/ test/ seed/ -name "*.hs" -exec fourmolu -i -o '-XTypeApplications' {} +
+	find src/ app/ test/ seed/ -name "*.hs" -exec fourmolu -i -o '-XTypeApplications' -o '-XImportQualifiedPost' {} +
 
 ghcid:
 	ghcid -c "cabal repl lib:nftree-eco-backend"

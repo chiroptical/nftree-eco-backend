@@ -37,16 +37,19 @@ library
       RecordWildCards
       TypeApplications
       TypeOperators
+      ImportQualifiedPost
   ghc-options: -Wall
   build-depends:
       aeson
     , base >=4.11 && <5
+    , cryptonite
     , esqueleto
     , monad-logger
     , mtl
     , password
     , persistent
     , persistent-sqlite
+    , random
     , resourcet
     , servant
     , servant-auth-server
@@ -72,9 +75,11 @@ executable seed
       RecordWildCards
       TypeApplications
       TypeOperators
+      ImportQualifiedPost
   ghc-options: -Wall
   build-depends:
       base >=4.11 && <5
+    , cryptonite
     , esqueleto
     , monad-logger
     , mtl
@@ -82,6 +87,7 @@ executable seed
     , password
     , persistent
     , persistent-sqlite
+    , random
     , resourcet
     , servant
     , servant-auth-server
@@ -107,9 +113,11 @@ executable server
       RecordWildCards
       TypeApplications
       TypeOperators
+      ImportQualifiedPost
   ghc-options: -Wall
   build-depends:
       base >=4.11 && <5
+    , cryptonite
     , esqueleto
     , monad-logger
     , mtl
@@ -117,6 +125,7 @@ executable server
     , password
     , persistent
     , persistent-sqlite
+    , random
     , resourcet
     , servant
     , servant-auth-server
@@ -143,9 +152,11 @@ test-suite spec
       RecordWildCards
       TypeApplications
       TypeOperators
+      ImportQualifiedPost
   ghc-options: -Wall
   build-depends:
       base >=4.11 && <5
+    , cryptonite
     , esqueleto
     , hedgehog
     , monad-logger
@@ -154,6 +165,7 @@ test-suite spec
     , password
     , persistent
     , persistent-sqlite
+    , random
     , resourcet
     , servant
     , servant-auth-server
