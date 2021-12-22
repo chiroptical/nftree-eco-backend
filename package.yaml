@@ -18,6 +18,7 @@ default-extensions:
 
 dependencies:
 - base >=4.11 && < 5
+- cassava
 - cryptonite
 - esqueleto
 - monad-logger
@@ -31,8 +32,11 @@ dependencies:
 - servant-auth-server
 - servant-server
 - text
+- time
 - transformers
 - unliftio
+- utf8-string
+- vector
 - wai-cors
 - wai-logger
 - warp

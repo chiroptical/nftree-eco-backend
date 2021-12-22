@@ -22,6 +22,7 @@ library
       Api
       Api.Auth
       AppM
+      Data.TreeCsv
       Model.Model
       Model.RunDb
       Model.Seed
@@ -42,6 +43,7 @@ library
   build-depends:
       aeson
     , base >=4.11 && <5
+    , cassava
     , cryptonite
     , esqueleto
     , monad-logger
@@ -55,8 +57,11 @@ library
     , servant-auth-server
     , servant-server
     , text
+    , time
     , transformers
     , unliftio
+    , utf8-string
+    , vector
     , wai-cors
     , wai-logger
     , warp
@@ -79,6 +84,7 @@ executable seed
   ghc-options: -Wall
   build-depends:
       base >=4.11 && <5
+    , cassava
     , cryptonite
     , esqueleto
     , monad-logger
@@ -93,8 +99,11 @@ executable seed
     , servant-auth-server
     , servant-server
     , text
+    , time
     , transformers
     , unliftio
+    , utf8-string
+    , vector
     , wai-cors
     , wai-logger
     , warp
@@ -117,6 +126,7 @@ executable server
   ghc-options: -Wall
   build-depends:
       base >=4.11 && <5
+    , cassava
     , cryptonite
     , esqueleto
     , monad-logger
@@ -131,8 +141,11 @@ executable server
     , servant-auth-server
     , servant-server
     , text
+    , time
     , transformers
     , unliftio
+    , utf8-string
+    , vector
     , wai-cors
     , wai-logger
     , warp
@@ -156,6 +169,7 @@ test-suite spec
   ghc-options: -Wall
   build-depends:
       base >=4.11 && <5
+    , cassava
     , cryptonite
     , esqueleto
     , hedgehog
@@ -171,8 +185,11 @@ test-suite spec
     , servant-auth-server
     , servant-server
     , text
+    , time
     , transformers
     , unliftio
+    , utf8-string
+    , vector
     , wai-cors
     , wai-logger
     , warp
