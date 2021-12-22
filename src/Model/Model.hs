@@ -12,6 +12,7 @@
 module Model.Model where
 
 import Data.Text (Text)
+import Data.Time (UTCTime)
 import Database.Persist.TH (
   mkMigrate,
   mkPersist,
@@ -30,9 +31,29 @@ RegisteredUser sql=registered_users
   deriving Show
 
 NFTree sql=nftrees
+  -- Unique id
+  treeId Int
+  UniqueTreeId treeId
+
+  -- Scientific names
+  genus Text
+  species Text
+  cultivar Text Maybe
   commonName Text
-  latinName Text
+
+  -- Facts
+  postalCode Text
+  diameter Double Maybe
+  height Text Maybe
+  datePlanted UTCTime Maybe
+  dateRemoved UTCTime Maybe
+
+  -- Garbage generated at time of insertion, can freely change
   secret Text
   UniqueSecret secret
+
+  -- Used to determine if something changes
+  updateAt UTCTime
+
   deriving Show
 |]

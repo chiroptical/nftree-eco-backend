@@ -42,3 +42,4 @@ This is **not** a blockchain project and never will be.
 - [Jake Archibald's CORS Resource](https://jakearchibald.com/2021/cors)
 
 [good-api]: https://docs.thegoodapi.com
+[persistent-entity-map]: https://hackage.haskell.org/package/persistent-2.13.2.1/docs/Database-Persist-Quasi.html

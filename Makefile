@@ -28,6 +28,9 @@ format-nix:
 format: format-nix
 	find src/ app/ test/ seed/ -name "*.hs" -exec fourmolu -i -o '-XTypeApplications' -o '-XImportQualifiedPost' {} +
 
+repl:
+	cabal repl lib:nftree-eco-backend
+
 ghcid:
 	ghcid -c "cabal repl lib:nftree-eco-backend"
 
@@ -40,4 +43,4 @@ ghcid-seed:
 clean:
 	cabal clean
 
-.PHONY: build build-lib build-test run test hpack format-nix format ghcid ghcid-exe clean build-seed run-seed
+.PHONY: build build-lib build-test run test hpack format-nix format ghcid ghcid-exe clean build-seed run-seed repl

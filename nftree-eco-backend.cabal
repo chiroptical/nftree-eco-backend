@@ -33,16 +33,18 @@ library
       src
   default-extensions:
       DataKinds
+      ImportQualifiedPost
       LambdaCase
       OverloadedStrings
       RecordWildCards
+      ScopedTypeVariables
       TypeApplications
       TypeOperators
-      ImportQualifiedPost
   ghc-options: -Wall
   build-depends:
       aeson
     , base >=4.11 && <5
+    , bytestring
     , cassava
     , cryptonite
     , esqueleto
@@ -75,15 +77,17 @@ executable seed
       seed
   default-extensions:
       DataKinds
+      ImportQualifiedPost
       LambdaCase
       OverloadedStrings
       RecordWildCards
+      ScopedTypeVariables
       TypeApplications
       TypeOperators
-      ImportQualifiedPost
   ghc-options: -Wall
   build-depends:
       base >=4.11 && <5
+    , bytestring
     , cassava
     , cryptonite
     , esqueleto
@@ -117,15 +121,17 @@ executable server
       app
   default-extensions:
       DataKinds
+      ImportQualifiedPost
       LambdaCase
       OverloadedStrings
       RecordWildCards
+      ScopedTypeVariables
       TypeApplications
       TypeOperators
-      ImportQualifiedPost
   ghc-options: -Wall
   build-depends:
       base >=4.11 && <5
+    , bytestring
     , cassava
     , cryptonite
     , esqueleto
@@ -160,15 +166,17 @@ test-suite spec
       test
   default-extensions:
       DataKinds
+      ImportQualifiedPost
       LambdaCase
       OverloadedStrings
       RecordWildCards
+      ScopedTypeVariables
       TypeApplications
       TypeOperators
-      ImportQualifiedPost
   ghc-options: -Wall
   build-depends:
       base >=4.11 && <5
+    , bytestring
     , cassava
     , cryptonite
     , esqueleto

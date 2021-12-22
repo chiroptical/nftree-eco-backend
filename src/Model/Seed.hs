@@ -39,6 +39,8 @@ seedDatabase = do
   easternWhitePine <- liftIO $ mkTree "Eastern White Pine" "Pinus strobus"
   void $ insertUnique easternWhitePine
 
+-- TODO: Generate arbitrary instances for NFTree fields that are
+-- real tree terms to build trees
 mkTree :: MonadIO m => Text -> Text -> m NFTree
 mkTree common latin = do
   stdGen <- newStdGen

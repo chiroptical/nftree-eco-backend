@@ -9,15 +9,17 @@ ghc-options: -Wall
 
 default-extensions:
 - DataKinds
+- ImportQualifiedPost
 - LambdaCase
 - OverloadedStrings
 - RecordWildCards
+- ScopedTypeVariables
 - TypeApplications
 - TypeOperators
-- ImportQualifiedPost
 
 dependencies:
 - base >=4.11 && < 5
+- bytestring
 - cassava
 - cryptonite
 - esqueleto
