@@ -9,27 +9,38 @@ ghc-options: -Wall
 
 default-extensions:
 - DataKinds
+- ImportQualifiedPost
 - LambdaCase
 - OverloadedStrings
 - RecordWildCards
+- ScopedTypeVariables
 - TypeApplications
 - TypeOperators
 
 dependencies:
 - base >=4.11 && < 5
+- bytestring
+- cassava
+- cryptonite
 - esqueleto
 - monad-logger
 - mtl
 - password
 - persistent
 - persistent-sqlite
+- quickcheck-instances
+- QuickCheck
+- random
 - resourcet
 - servant
 - servant-auth-server
 - servant-server
 - text
+- time
 - transformers
 - unliftio
+- utf8-string
+- vector
 - wai-cors
 - wai-logger
 - warp

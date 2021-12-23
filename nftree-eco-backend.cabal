@@ -22,6 +22,7 @@ library
       Api
       Api.Auth
       AppM
+      Data.TreeCsv
       Model.Model
       Model.RunDb
       Model.Seed
@@ -32,28 +33,39 @@ library
       src
   default-extensions:
       DataKinds
+      ImportQualifiedPost
       LambdaCase
       OverloadedStrings
       RecordWildCards
+      ScopedTypeVariables
       TypeApplications
       TypeOperators
   ghc-options: -Wall
   build-depends:
-      aeson
+      QuickCheck
+    , aeson
     , base >=4.11 && <5
+    , bytestring
+    , cassava
+    , cryptonite
     , esqueleto
     , monad-logger
     , mtl
     , password
     , persistent
     , persistent-sqlite
+    , quickcheck-instances
+    , random
     , resourcet
     , servant
     , servant-auth-server
     , servant-server
     , text
+    , time
     , transformers
     , unliftio
+    , utf8-string
+    , vector
     , wai-cors
     , wai-logger
     , warp
@@ -67,14 +79,20 @@ executable seed
       seed
   default-extensions:
       DataKinds
+      ImportQualifiedPost
       LambdaCase
       OverloadedStrings
       RecordWildCards
+      ScopedTypeVariables
       TypeApplications
       TypeOperators
   ghc-options: -Wall
   build-depends:
-      base >=4.11 && <5
+      QuickCheck
+    , base >=4.11 && <5
+    , bytestring
+    , cassava
+    , cryptonite
     , esqueleto
     , monad-logger
     , mtl
@@ -82,13 +100,18 @@ executable seed
     , password
     , persistent
     , persistent-sqlite
+    , quickcheck-instances
+    , random
     , resourcet
     , servant
     , servant-auth-server
     , servant-server
     , text
+    , time
     , transformers
     , unliftio
+    , utf8-string
+    , vector
     , wai-cors
     , wai-logger
     , warp
@@ -102,14 +125,20 @@ executable server
       app
   default-extensions:
       DataKinds
+      ImportQualifiedPost
       LambdaCase
       OverloadedStrings
       RecordWildCards
+      ScopedTypeVariables
       TypeApplications
       TypeOperators
   ghc-options: -Wall
   build-depends:
-      base >=4.11 && <5
+      QuickCheck
+    , base >=4.11 && <5
+    , bytestring
+    , cassava
+    , cryptonite
     , esqueleto
     , monad-logger
     , mtl
@@ -117,13 +146,18 @@ executable server
     , password
     , persistent
     , persistent-sqlite
+    , quickcheck-instances
+    , random
     , resourcet
     , servant
     , servant-auth-server
     , servant-server
     , text
+    , time
     , transformers
     , unliftio
+    , utf8-string
+    , vector
     , wai-cors
     , wai-logger
     , warp
@@ -138,14 +172,20 @@ test-suite spec
       test
   default-extensions:
       DataKinds
+      ImportQualifiedPost
       LambdaCase
       OverloadedStrings
       RecordWildCards
+      ScopedTypeVariables
       TypeApplications
       TypeOperators
   ghc-options: -Wall
   build-depends:
-      base >=4.11 && <5
+      QuickCheck
+    , base >=4.11 && <5
+    , bytestring
+    , cassava
+    , cryptonite
     , esqueleto
     , hedgehog
     , monad-logger
@@ -154,13 +194,18 @@ test-suite spec
     , password
     , persistent
     , persistent-sqlite
+    , quickcheck-instances
+    , random
     , resourcet
     , servant
     , servant-auth-server
     , servant-server
     , text
+    , time
     , transformers
     , unliftio
+    , utf8-string
+    , vector
     , wai-cors
     , wai-logger
     , warp

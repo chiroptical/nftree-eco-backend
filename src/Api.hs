@@ -1,7 +1,7 @@
 module Api where
 
 import Api.Auth (AuthenticatedUser (..))
-import qualified Api.Auth as Auth
+import Api.Auth qualified as Auth
 import AppM (AppM)
 import Data.Text (Text)
 import Servant
