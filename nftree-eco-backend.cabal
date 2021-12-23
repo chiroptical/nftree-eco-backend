@@ -42,7 +42,8 @@ library
       TypeOperators
   ghc-options: -Wall
   build-depends:
-      aeson
+      QuickCheck
+    , aeson
     , base >=4.11 && <5
     , bytestring
     , cassava
@@ -53,6 +54,7 @@ library
     , password
     , persistent
     , persistent-sqlite
+    , quickcheck-instances
     , random
     , resourcet
     , servant
@@ -86,7 +88,8 @@ executable seed
       TypeOperators
   ghc-options: -Wall
   build-depends:
-      base >=4.11 && <5
+      QuickCheck
+    , base >=4.11 && <5
     , bytestring
     , cassava
     , cryptonite
@@ -97,6 +100,7 @@ executable seed
     , password
     , persistent
     , persistent-sqlite
+    , quickcheck-instances
     , random
     , resourcet
     , servant
@@ -130,7 +134,8 @@ executable server
       TypeOperators
   ghc-options: -Wall
   build-depends:
-      base >=4.11 && <5
+      QuickCheck
+    , base >=4.11 && <5
     , bytestring
     , cassava
     , cryptonite
@@ -141,6 +146,7 @@ executable server
     , password
     , persistent
     , persistent-sqlite
+    , quickcheck-instances
     , random
     , resourcet
     , servant
@@ -175,7 +181,8 @@ test-suite spec
       TypeOperators
   ghc-options: -Wall
   build-depends:
-      base >=4.11 && <5
+      QuickCheck
+    , base >=4.11 && <5
     , bytestring
     , cassava
     , cryptonite
@@ -187,6 +194,7 @@ test-suite spec
     , password
     , persistent
     , persistent-sqlite
+    , quickcheck-instances
     , random
     , resourcet
     , servant

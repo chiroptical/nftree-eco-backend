@@ -3,15 +3,19 @@ module Model.Seed (
   seedDatabase,
 ) where
 
-import Control.Monad (void)
+import Control.Monad (forM_, void)
 import Crypto.Hash
 import Data.Password.Bcrypt (PasswordHash (..), hashPassword, mkPassword)
 import Data.Text (Text)
 import Data.Text qualified as T
 import Data.Text.Encoding (encodeUtf8)
+import Data.Time (UTCTime)
+import Data.TreeCsv (PostalCode (..))
 import Database.Esqueleto.Experimental
 import Model.Model (NFTree (..), RegisteredUser (..))
 import System.Random
+import Test.QuickCheck
+import Test.QuickCheck.Instances.Time ()
 import UnliftIO (MonadIO, liftIO)
 
 unsafeDropRegisteredUsers :: MonadIO m => SqlPersistT m [Single Int]
@@ -26,29 +30,45 @@ seedDatabase = do
         { registeredUserEmail = "chiroptical@email.com"
         , registeredUserHashedPassword = hashedPassword
         }
+  forM_ [0 :: Int .. 100] $ \_ -> do
+    nFTree <- liftIO mkTree
+    void $ insertUnique nFTree
 
-  americanBasswood <- liftIO $ mkTree "American Basswood" "Tilia americana"
-  void $ insertUnique americanBasswood
+genScientificName :: Gen (Text, Text, Maybe Text, Text)
+genScientificName = do
+  genus <- elements ["Platanus", "Tilia", "Zelkova", "Acer", "Ulmus", "Gleditsia", "Fraxinus", "Celtis", "Pyrus", "Quercus", "Koelreuteria", "Nyssa", "Amelanchier", "Liriodendron", "Liquidambar", "Prunus", "Malus", "Ginkgo", "Gingko"]
+  species <- elements ["acerifolia", "americana", "rubrum", "triacanthos", "cordata", "pennsylvanica", "occidentalis", "calleryana", "acutissima", "alba", "phellos", "paniculata", "rubra", "sylvatica", "imbricaria", "serrata", "elegans", "tomentosa", "palustris"]
+  cultivar <- elements ["Greenspire", "Schwedleri", "Crimson King", "Fastigiata", "Hollandica", "Harvest Gold", "Glauca"]
+  commonName <- elements ["London planetree", "American basswood", "Zelkova", "Red maple", "Elm", "Honeylocust", "Ash", "Littleleaf linden", "Green ash", "Northern hackberry", "Callery pear", "Maple", "Sawtooth oak", "White oak", "Willow oak", "Goldenrain tree", "Northern red oak", "Black tupelo", "Shingle oak"]
+  pure (genus, species, Just cultivar, commonName)
 
-  americanElm <- liftIO $ mkTree "American Elm" "Ulmus americana"
-  void $ insertUnique americanElm
+genPostalCode :: Gen PostalCode
+genPostalCode = do
+  let genDigit = elements ['0' .. '9']
+  PostalCode . read <$> vectorOf 5 genDigit
 
-  commonHackberry <- liftIO $ mkTree "Common Hackberry" "Celtis occidentalis"
-  void $ insertUnique commonHackberry
+genFacts :: Gen (Maybe PostalCode, Maybe Double, Maybe Double, Maybe UTCTime, Maybe UTCTime)
+genFacts = do
+  postalCode <- frequency [(9, Just <$> genPostalCode), (1, pure Nothing)]
+  diameter <- fmap abs <$> frequency [(9, Just <$> arbitrary), (1, pure Nothing)]
+  height <- fmap abs <$> frequency [(9, Just <$> arbitrary), (1, pure Nothing)]
+  datePlanted <- frequency [(9, arbitrary), (1, pure Nothing)]
+  dateRemoved <- frequency [(9, arbitrary), (1, pure Nothing)]
+  pure (postalCode, diameter, height, datePlanted, dateRemoved)
 
-  easternWhitePine <- liftIO $ mkTree "Eastern White Pine" "Pinus strobus"
-  void $ insertUnique easternWhitePine
+genTreeId :: Gen Int
+genTreeId = do
+  let genDigit = elements ['0' .. '9']
+  read <$> vectorOf 5 genDigit
 
--- TODO: Generate arbitrary instances for NFTree fields that are
--- real tree terms to build trees
-mkTree :: MonadIO m => Text -> Text -> m NFTree
-mkTree common latin = do
+mkTree :: IO NFTree
+mkTree = do
+  nFTreeTreeId <- generate genTreeId
+  nFTreeUpdatedAt <- generate arbitrary
+  (nFTreeGenus, nFTreeSpecies, nFTreeCultivar, nFTreeCommonName) <- generate genScientificName
+  (mNFTreePostalCode, nFTreeDiameter, nFTreeHeight, nFTreeDatePlanted, nFTreeDateRemoved) <- generate genFacts
+  let nFTreePostalCode = (\(PostalCode p) -> p) <$> mNFTreePostalCode
   stdGen <- newStdGen
   let (randomBs, _) = genByteString 8 stdGen
-      secret = T.pack . show $ hash @_ @SHA1 (encodeUtf8 common <> encodeUtf8 latin <> randomBs)
-  pure
-    NFTree
-      { nFTreeCommonName = common
-      , nFTreeLatinName = latin
-      , nFTreeSecret = secret
-      }
+      nFTreeSecret = T.pack . show $ hash @_ @SHA1 (encodeUtf8 nFTreeGenus <> encodeUtf8 nFTreeSpecies <> randomBs)
+  pure NFTree {..}

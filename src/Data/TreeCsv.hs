@@ -1,4 +1,6 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 module Data.TreeCsv where
 
@@ -11,6 +13,9 @@ import Data.Time (UTCTime)
 import Data.Time.Format.ISO8601 qualified as Iso
 import Data.Vector (Vector)
 import GHC.Generics (Generic)
+import Test.QuickCheck
+import Test.QuickCheck.Instances.Time ()
+import Text.Read (readMaybe)
 
 decodeTreeCsv :: FilePath -> IO (Either String (Vector TreeRow))
 decodeTreeCsv fp = do
@@ -22,8 +27,7 @@ data TreeRow = TreeRow
   , longitude :: Text
   , streetAddress :: Text
   , city :: Text
-  , -- TODO: Maybe 'xxxxx-xxx'?
-    postalCode :: Text
+  , postalCode :: Maybe PostalCode
   , plantingSiteWidth :: Text
   , plantingSiteLength :: Text
   , plantingSiteId :: Text
@@ -41,11 +45,11 @@ data TreeRow = TreeRow
   , -- This may not be present, in cassava you can just use 'Maybe a'
     -- to represent it
     diameter :: Maybe Double
-  , treeHeight :: Maybe Text
+  , treeHeight :: Maybe Double
   , canopyHeight :: Text
   , datePlanted :: Maybe Time
   , -- nf trees are non-refungible
-    dateRemoved :: Time
+    dateRemoved :: Maybe Time
   , amountOfPruning :: Text
   , confidenceInIdentification :: Text
   , isMultistem :: Text
@@ -86,11 +90,6 @@ instance ToRecord TreeRow
 newtype Time = Time UTCTime
   deriving (Eq, Show)
 
-data TreePresence
-  = IsPresent
-  | IsNotPresent
-  deriving (Eq, Show)
-
 instance ToField Time where
   toField (Time utcTime) = toField $ Iso.iso8601Show utcTime
 
@@ -103,6 +102,14 @@ instance FromField Time where
     parsedTime <- Iso.iso8601ParseM (Text.unpack $ adjustFront <> "Z")
     pure $ Time parsedTime
 
+instance Arbitrary Time where
+  arbitrary = Time <$> arbitrary
+
+data TreePresence
+  = IsPresent
+  | IsNotPresent
+  deriving (Eq, Show)
+
 instance ToField TreePresence where
   toField = \case
     IsPresent -> "True"
@@ -114,3 +121,18 @@ instance FromField TreePresence where
       "True" -> pure IsPresent
       "False" -> pure IsNotPresent
       _ -> fail $ "Got '" <> (Text.unpack . decodeUtf8 $ bs) <> "' but expected 'True' or 'False'"
+
+instance Arbitrary TreePresence where
+  arbitrary = frequency [(9, pure IsPresent), (1, pure IsNotPresent)]
+
+newtype PostalCode = PostalCode Int
+  deriving newtype (Eq, Show, ToField, Arbitrary)
+
+instance FromField PostalCode where
+  parseField bs = do
+    let t :: Text = decodeUtf8 bs
+        (first, _) = Text.breakOn "-" t
+        mPostalCode = readMaybe @Int (Text.unpack first)
+    case mPostalCode of
+      Just postalCode -> pure $ PostalCode postalCode
+      Nothing -> fail $ "Unable to decode as postal code, got: " <> Text.unpack t

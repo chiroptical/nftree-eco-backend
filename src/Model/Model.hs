@@ -42,9 +42,9 @@ NFTree sql=nftrees
   commonName Text
 
   -- Facts
-  postalCode Text
+  postalCode Int Maybe
   diameter Double Maybe
-  height Text Maybe
+  height Double Maybe
   datePlanted UTCTime Maybe
   dateRemoved UTCTime Maybe
 
@@ -53,7 +53,7 @@ NFTree sql=nftrees
   UniqueSecret secret
 
   -- Used to determine if something changes
-  updateAt UTCTime
+  updatedAt UTCTime
 
   deriving Show
 |]

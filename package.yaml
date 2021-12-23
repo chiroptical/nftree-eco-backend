@@ -28,6 +28,8 @@ dependencies:
 - password
 - persistent
 - persistent-sqlite
+- quickcheck-instances
+- QuickCheck
 - random
 - resourcet
 - servant
